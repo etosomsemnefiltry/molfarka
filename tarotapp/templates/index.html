@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Molfarka — ІІ розклад Таро</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-dark text-light">
+
+<div class="container mt-5">
+  <h1 class="mb-4">Мольфарка — Передбачення від ШІ</h1>
+
+  <div class="mb-3">
+    <label for="question">Ваше питання:</label>
+    <input type="text" id="question" name="question" class="form-control" placeholder="Наприклад: Що мене чекає у коханні?">
+  </div>
+
+  <div class="mb-3">
+    <label for="deck">Оберіть колоду:</label>
+    <select id="deck" тфьу="deck" class="form-select">
+      {% for deck in decks %}
+        <option value="{{ deck.slug }}" data-max="{{ deck.max_cards }}">{{ deck.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="count">Кількість карт:</label>
+    <input type="number" id="count" name="count" class="form-control" value="3" min="1" max="5">
+  </div>
+
+  <button id="ask" class="btn btn-primary">Отримати передбачення</button>
+
+  <div class="mt-4" id="response" style="white-space: pre-wrap;"></div>
+</div>
+
+<script>
+$(document).ready(function () {
+  $('#deck').on('change', function () {
+    let max = $(this).find(':selected').data('max');
+    $('#count').attr('max', max);
+    if (parseInt($('#count').val()) > max) {
+      $('#count').val(max);
+    }
+  });
+
+  $('#ask').click(function () {
+    let question = $('#question').val();
+    let deck = $('#deck').val();
+    let count = $('#count').val();
+
+    $('#response').html('🔮 Мольфарка тасує карти...');
+
+    $.post('/predict/', {
+      question: question,
+      deck: deck,
+      count: count
+    }, function (data) {
+      $('#response').html(data.result);
+    }, 'json').fail(function () {
+      $('#response').html('😔 Виникла помилка.');
+    });
+  });
+});
+</script>
+
+</body>
+</html>
