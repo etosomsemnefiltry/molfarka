@@ -21,3 +21,8 @@ urlpatterns = [
     path('', include('tarotapp.urls')),  # подключаем маршруты из tarotapp
     path('admin/', admin.site.urls),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
