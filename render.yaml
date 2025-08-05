@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: molfarka
+    env: python
+    plan: free
+    buildCommand: "./venv/bin/pip install -r requirements.txt"
+    startCommand: "gunicorn molfarka.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: molfarka.settings
+      - key: PYTHON_VERSION
+        value: 3.12
