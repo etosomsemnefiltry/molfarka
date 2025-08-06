@@ -24,8 +24,10 @@ SECRET_KEY = 'django-insecure-f$gdmx7s+n+nx8==7cc1th2oc5eno@f=b4v9b)1i+qbg20g3+i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['molfarka.com.ua', 'www.molfarka.com.ua', 'molfarka.onrender.com']
-
+if DEBUG:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+else:
+    ALLOWED_HOSTS = ['molfarka.com.ua', 'www.molfarka.com.ua', 'molfarka.onrender.com']
 
 # Application definition
 
