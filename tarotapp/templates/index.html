@@ -153,9 +153,20 @@
            });
        
            $('#ask').click(function () {
+
+            gtag('event', 'click', {
+               'event_category': 'prediction',
+               'event_label': 'Ask button clicked'
+            });
+
              let question = $('#question').val();
              let deck = $('#deck').val();
              let count = $('#count').val();
+
+            if (!question) {
+               $('#response').removeClass('d-none').html('⚠️ Будь ласка, введіть питання перед ворожінням.');
+               return;
+            }
 
             if (count < 1 || count > 10) {
                $('#response').removeClass('d-none').html('⚠️ Кількість карт має бути від 1 до 10.');
