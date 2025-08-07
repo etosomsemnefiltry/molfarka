@@ -217,7 +217,7 @@ button {
     width: 100%;
     float: left;
     height: auto;
-    background-image: url(../images/banner-bg.jpg);
+    background-image: url(../images/banner-bg2.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
 }
@@ -346,6 +346,12 @@ button {
     float: left;
     padding-top: 0px;
     padding-bottom: 100px;
+}
+
+@media screen and (max-width: 768px){
+	.banner_section {
+        padding-bottom: 10px;
+    }
 }
 
 .banner_taital_1 {
@@ -592,7 +598,7 @@ form.example::after {
     width: 100%;
     float: left;
     padding: 40px 0px 60px 0px;
-    background-image: url(../images/hosting-bg.jpg);
+    background-image: url(../images/hosting-bg2.jpg);
     height: auto;
     background-size: 100% 100%;
 }
@@ -627,11 +633,12 @@ form.example::after {
 }
 
 .hosting_question {
-    width: 60%;
+    width: 100%;
     float: left;
     margin-top: 30px;
     color: white;
 }
+
 
 .hosting_answer {
     color: #e3e3e3;
@@ -642,6 +649,12 @@ form.example::after {
     max-width: 270px;
     float: left;
     margin-top: 30px;
+}
+
+@media screen and (max-width: 768px){
+	.click_bt{
+        float: right;
+    }
 }
 
 .click_bt {

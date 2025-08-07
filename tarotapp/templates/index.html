@@ -62,12 +62,12 @@
                      <div class="container">
                         <div class="row">
                            <div class="col-md-6">
-                              <h1 class="banner_taital">Ворожіння <br>онлайн за ШІ</h1>
+                              <h1 class="banner_taital">Ворожіння <br>онлайн з ШІ</h1>
                               <div class="banner_text_yellow">Мольфа́р — в українській гуцульській культурі людина, якій приписується наділеність надприродними здібностями. Мольфар поєднує риси знахаря, чарівника та ворожбита.</div>
                              <!--  <div class="read_bt"><a href="#">Спробуй</a></div> --> 
                            </div>
                            <div class="col-md-6">
-                              <div class="banner_img"><img src="{% static 'images/banner-1.png' %}"></div>
+                              <div class="banner_img"><img src="{% static 'images/ai-tarot4.png' %}"></div>
                            </div>
                         </div>
                      </div>
@@ -82,27 +82,35 @@
       <div class="hosting_section layout_padding">
          <div class="container">
             <div class="row">
-               <div class="col-md-8">
-                  <h1 class="hosting_taital">ОБЕРИ, ЗАПИТАЙ, ОТРИМАЙ ВІДПОВІДЬ</h1>
-                  <p class="hosting_text"> Найточніші відповіді, коли є пояснення вашої ситуаціі або побажання ;)</p>
-                  <div class="hosting_question mt-3">
-                     <label for="question">Ваше питання (будь яка мова):</label>
-                     <textarea type="text" id="question" name="question" class="form-control" maxlength="500" placeholder="Наприклад: Що мене чекає у коханні?"></textarea>
+               <div class="col-md-8 ">
+                  <h2 class="hosting_taital">Классичне ворожіння Таро</h2>
+                  <h2 class="hosting_taital h1">ОБЕРИ, ЗАПИТАЙ, ОТРИМАЙ ВІДПОВІДЬ</h2>
+                  <div class="col-md-7 mx-auto">
+                     <div class="banner_img"><img src="{% static 'images/tarot-cards2.png' %}"></div>
                   </div>
                </div>
                <div class="col-md-4 mt-auto hosting-settings">
-                  <div class="mb-3 d-flex flex-column">
-                     <label for="deck">Оберіть колоду:</label>
-                     <select id="deck" name="deck" class="form-select">
-                       {% for deck in decks %}
-                         <option value="{{ deck.slug }}" data-max="{{ deck.max_cards }}">{{ deck.name }}</option>
-                       {% endfor %}
-                     </select>
-                   </div>
-                   <div class="mb-3 d-flex flex-column">
-                     <label for="count">Кількість карт:</label>
-                     <input type="number" id="count" name="count" class="form-control" value="3" min="1" max="10">
-                   </div>
+                  <div class="mb-2">
+                     <p class="hosting_text"> Найточніші відповіді, коли є пояснення вашої ситуаціі або побажання ;)</p>
+                     <div class="hosting_question mb-4 ">
+                        <label for="question">Ваше питання (будь яка мова):</label>
+                        <textarea type="text" id="question" name="question" class="form-control" maxlength="500" placeholder="Наприклад: Що мене чекає у коханні?"></textarea>
+                     </div>
+                     <div class="row">
+                     <div class="d-flex flex-column col-8">
+                        <label for="deck">Оберіть колоду:</label>
+                        <select id="deck" name="deck" class="form-select">
+                           {% for deck in decks %}
+                              <option value="{{ deck.slug }}" data-max="{{ deck.max_cards }}">{{ deck.name }}</option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                     <div class="d-flex flex-column col-4">
+                        <label for="count">Кіл-ть карт:</label>
+                        <input type="number" id="count" name="count" class="form-control" value="3" min="1" max="10">
+                     </div>
+                     </div>
+                  </div>
                   <button id="ask" class="click_bt">Отримати передбачення</button>
                </div>
             </div>

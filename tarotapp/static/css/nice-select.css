@@ -20,14 +20,15 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 50%;
+  /*width: 50%;*/
   cursor: pointer;
   font-family: inherit;
   font-weight: normal;
-  line-height: 50px;
+  line-height: 38px;
   text-align: left !important;
   white-space: nowrap;
   font-weight: 300;
+  border-radius: 6px;
 }
 
 .nice-select:after {
