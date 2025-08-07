@@ -1,5 +1,6 @@
 from django.db import models
 from slugify import slugify
+from django.utils import timezone
 
 class TarotDeck(models.Model):
     name = models.CharField(max_length=100)
@@ -20,4 +21,13 @@ class TarotDeck(models.Model):
     def __str__(self):
         return self.name
 
-    
+class PredictionLog(models.Model):
+    question = models.TextField()
+    deck = models.CharField(max_length=100)
+    cards = models.JSONField()
+    ip = models.GenericIPAddressField()
+    user_agent = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.created_at.strftime('%Y-%m-%d %H:%M')} — {self.deck}"

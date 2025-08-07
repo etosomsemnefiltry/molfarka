@@ -29,6 +29,20 @@
       <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <script>
+         $.ajaxSetup({
+           headers: { "X-CSRFToken": '{{ csrf_token }}' }
+         });
+       </script>
+       <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEMLCQ65YQ"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+
+         gtag('config', 'G-XEMLCQ65YQ');
+      </script>
    </head>
    <body>
       <div class="header_section">
@@ -88,7 +102,7 @@
                    </div>
                    <div class="mb-3 d-flex flex-column">
                      <label for="count">Кількість карт:</label>
-                     <input type="number" id="count" name="count" class="form-control" value="3" min="1" max="5">
+                     <input type="number" id="count" name="count" class="form-control" value="3" min="1" max="10">
                    </div>
                   <button id="ask" class="click_bt">Отримати передбачення</button>
                </div>
@@ -137,27 +151,44 @@
                $('#count').val(max);
              }
            });
-         
+       
            $('#ask').click(function () {
              let question = $('#question').val();
              let deck = $('#deck').val();
              let count = $('#count').val();
+
+            if (count < 1 || count > 10) {
+               $('#response').removeClass('d-none').html('⚠️ Кількість карт має бути від 1 до 10.');
+               return;
+            }
+       
+             $('#response').removeClass('d-none').html('🔮 Мольфарка тасує карти...');
              
-             $('#response').removeClass('d-none');
-             $('#response').html('🔮 Мольфарка тасує карти...');
-         
-             $.post('/predict/', {
-               question: question,
+             // Choose cards
+             $.post('/draw/', JSON.stringify({
                deck: deck,
                count: count
-             }, function (data) {
-               $('#response').html(data.result);
+             }), function (drawData) {
+               let cards = drawData.cards;
+               $('#response').html(`🃏 Ось які карти випали:<br><b>${cards.join(', ')}</b><br><br>✨ Тлумачення вашого запитання...`);
+               
+               // Explain
+               $.post('/predict/', JSON.stringify({
+                 question: question,
+                 cards: cards,
+                 deck: deck
+               }), function (resultData) {
+                 $('#response').append('<br><br>' + resultData.result);
+               }, 'json').fail(function () {
+                 $('#response').append('<br>😔 Виникла помилка при тлумаченні.');
+               });
+       
              }, 'json').fail(function () {
-               $('#response').html('😔 Виникла помилка.');
+               $('#response').html('😔 Виникла помилка при виборі карт.');
              });
            });
          });
-         </script>
+       </script>
 
    </body>
 </html>
