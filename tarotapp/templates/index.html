@@ -1,212 +1,248 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html>
-   <head>
-      <!-- basic -->
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <!-- mobile metas -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-      <!-- site metas -->
-      <title>Мольфарка - ворожіння з штучним інтеллектом. Передбачення від ШІ</title>
-      <meta name="keywords" content="">
-      <meta name="description" content="Швидкі передбачення Таро від Мольфарка - швидкий шлях отримати відповідь. Офіційний сайт">
-      <!-- bootstrap css -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-      <!-- style css -->
-      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-      <!-- Responsive-->
-      <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-      <!-- fevicon -->
-      <link rel="icon" href="{% static 'images/molfarka.png' %}" type="image/gif" />
-      <!-- fonts -->
-      <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Sen:400,700,800&display=swap" rel="stylesheet">
-      <!-- Scrollbar Custom CSS -->
-      <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
-      <!-- Tweaks for older IEs-->
-      <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-      <script>
-         $.ajaxSetup({
-           headers: { "X-CSRFToken": '{{ csrf_token }}' }
-         });
-       </script>
-       <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEMLCQ65YQ"></script>
-      <script>
-         window.dataLayer = window.dataLayer || [];
-         function gtag(){dataLayer.push(arguments);}
-         gtag('js', new Date());
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Мольфарка — ворожіння з ШІ. Передбачення онлайн</title>
+    <meta name="description" content="Швидкі передбачення Таро від Мольфарки. Оберіть колоду, поставте питання — отримайте містичну відповідь." />
 
-         gtag('config', 'G-XEMLCQ65YQ');
-      </script>
-   </head>
-   <body>
-      <div class="header_section">
-         <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-               <a class="navbar-brand mx-auto"href="index.html"><img src="{% static 'images/molfarka-logo.png' %}"></a>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-               </button>
-               
-            </nav>
-         </div>
-         <!-- banner section start --> 
-         <div class="banner_section layout_padding">
-            <div id="my_slider" class="carousel slide" data-ride="carousel">
-               <div class="carousel-inner">
-                  <div class="carousel-item active">
-                     <div class="container">
-                        <div class="row">
-                           <div class="col-md-6">
-                              <h1 class="banner_taital">Ворожіння <br>онлайн з ШІ</h1>
-                              <div class="banner_text_yellow">Мольфа́р — в українській гуцульській культурі людина, якій приписується наділеність надприродними здібностями. Мольфар поєднує риси знахаря, чарівника та ворожбита.</div>
-                             <!--  <div class="read_bt"><a href="#">Спробуй</a></div> --> 
-                           </div>
-                           <div class="col-md-6">
-                              <div class="banner_img"><img src="{% static 'images/ai-tarot4.png' %}"></div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- banner section end -->
-      </div>
-      <!-- header section end -->
-      <!-- hosting section start -->
-      <div class="hosting_section layout_padding">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-8 ">
-                  <h2 class="hosting_taital">Классичне ворожіння Таро</h2>
-                  <h2 class="hosting_taital h1">ОБЕРИ, ЗАПИТАЙ, ОТРИМАЙ ВІДПОВІДЬ</h2>
-                  <div class="col-md-7 mx-auto">
-                     <div class="banner_img"><img src="{% static 'images/tarot-cards2.png' %}"></div>
-                  </div>
-               </div>
-               <div class="col-md-4 mt-auto hosting-settings">
-                  <div class="mb-2">
-                     <p class="hosting_text"> Найточніші відповіді, коли є пояснення вашої ситуаціі або побажання ;)</p>
-                     <div class="hosting_question mb-4 ">
-                        <label for="question">Ваше питання (будь яка мова):</label>
-                        <textarea type="text" id="question" name="question" class="form-control" maxlength="500" placeholder="Наприклад: Що мене чекає у коханні?"></textarea>
-                     </div>
-                     <div class="row">
-                     <div class="d-flex flex-column col-8">
-                        <label for="deck">Оберіть колоду:</label>
-                        <select id="deck" name="deck" class="form-select">
-                           {% for deck in decks %}
-                              <option value="{{ deck.slug }}" data-max="{{ deck.max_cards }}">{{ deck.name }}</option>
-                           {% endfor %}
-                        </select>
-                     </div>
-                     <div class="d-flex flex-column col-4">
-                        <label for="count">Кіл-ть карт:</label>
-                        <input type="number" id="count" name="count" class="form-control" value="3" min="1" max="10">
-                     </div>
-                     </div>
-                  </div>
-                  <button id="ask" class="click_bt">Отримати передбачення</button>
-               </div>
-            </div>
-            <div class="mt-4 hosting_answer testimonial_section_2 d-none" id="response" style="white-space: pre-wrap;"></div>
-         </div>
-      </div>
-      <!-- hosting section end -->
-     
-      <div class="simple_section layout_padding">
-         <div class="container">
-            <div class="row">
-               <div class="col-12">
-                  
-                  <h3 class="h2">Для користувачів.</h3>
-                  <p class="h5">Шановні користувачі, зроблено для вас. Користуйтесь на здоров'я!</p>
-                  <p class="h5">У подальшому я буду намагатися покращувати свої відповиді на ваші запитання та розширювати функціонал.</p>
-               </div>
-            </div>
-         </div>
-      </div>
-     
-      <!-- copyright section start -->
-      <div class="copyright_section">
-         <div class="container">
-            <p class="copyright_text">2025 Molfarka</p>
-         </div>
-      </div>
-      <!-- copyright section end -->
-      <!-- Javascript files-->
-      <script src="{% static 'js/jquery.min.js' %}"></script>
-      <script src="{% static 'js/popper.min.js' %}"></script>
-      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
-      <script src="{% static 'js/plugin.js' %}"></script>
-      <!-- sidebar -->
-      <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-      <script src="{% static 'js/custom.js' %}"></script>
+    <link rel="icon" href="{% static 'images/molfarka.png' %}" type="image/png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}" />
+    <!-- Легкие иконки (Font Awesome 4 уже подключен у вас; добавим современный CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-V6u0..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-      <script>
-         $(document).ready(function () {
-           $('#deck').on('change', function () {
-             let max = $(this).find(':selected').data('max');
-             $('#count').attr('max', max);
-             if (parseInt($('#count').val()) > max) {
-               $('#count').val(max);
-             }
-           });
-       
-           $('#ask').click(function () {
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Sen:wght@700;800&display=swap" rel="stylesheet"/>
+   <!-- Bootstrap 5 JS -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
-            gtag('event', 'click', {
-               'event_category': 'prediction',
-               'event_label': 'Ask button clicked'
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEMLCQ65YQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("js", new Date());
+      gtag("config", "G-XEMLCQ65YQ");
+    </script>
+  </head>
+
+  <body class="cosmic-bg">
+
+
+
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-dark cosmic-nav">
+      <div class="container">
+    
+        <!-- Лого -->
+        <a class="navbar-brand d-flex align-items-center" href="/">
+          <img src="{% static 'images/molfarka-logo.png' %}" alt="MOLFARKA" class="brand-logo me-2">
+          <span class="visually-hidden">MOLFARKA</span>
+        </a>
+    
+        <!-- Кнопка-бургер для мобилы -->
+        <button class="navbar-toggler d-md-none" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#molfarkaMenu"
+        aria-controls="molfarkaMenu" aria-label="Меню">
+  <span class="navbar-toggler-icon">
+    <div></div>
+    <div></div>
+    <div></div>
+  </span>
+</button>
+    
+        <!-- Меню (десктоп) -->
+        <div class="collapse navbar-collapse d-none d-md-flex justify-content-end">
+          <ul class="navbar-nav gap-4">
+            <li class="nav-item">
+              <a class="nav-link text-light d-flex align-items-center" href="#predict">
+                <i class="fa-solid fa-wand-sparkles me-2"></i> Ворожіння
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light d-flex align-items-center" style="white-space: nowrap;" href="#how">
+                <i class="fa-regular fa-star me-2"></i> Як це працює
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Offcanvas (мобильное меню) -->
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="molfarkaMenu">
+      <div class="offcanvas-header">
+        <img src="{% static 'images/molfarka-logo.png' %}" class="brand-logo me-2" alt="MOLFARKA">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Закрити"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-light d-flex align-items-center" href="#predict" data-bs-dismiss="offcanvas">
+              <i class="fa-solid fa-wand-sparkles me-2"></i> Ворожіння
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light d-flex align-items-center" href="#how" data-bs-dismiss="offcanvas" style="white-space: nowrap;">
+              <i class="fa-regular fa-star me-2 "></i> Як це працює
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero container py-5">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <h1 class="display-6 fw-bold text-gradient mb-3">Ворожіння онлайн з ШІ</h1>
+          <p class="lead text-light-80 mb-4">
+            Мольфа́р — у гуцульській культурі носій надприродних здібностей, що поєднує риси знахаря та ворожбита.
+            Оберіть колоду, поставте питання — і отримайте містичну відповідь.
+          </p>
+          <a href="#readings" class="btn btn-neon btn-lg mb-3">
+            <i class="fa-solid fa-crystal-ball me-2"></i> Почати ворожіння
+          </a>
+        </div>
+        <div class="col-lg-6 text-center">
+          <div class="hero-illustration glass p-3">
+            <img src="{% static 'images/ai-tarot4.png' %}" alt="AI Tarot" class="img-fluid floating"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reading Form -->
+    <section id="readings" class="container pb-5">
+      <div class="row g-4">
+        <div class="col-lg-7 order-1 order-lg-1 mb-3">
+          <div class="glass p-4 h-100">
+            <h2 class="h3 mb-3 text-gradient"><i class="fa-solid fa-hat-wizard mr-2"></i>Класичне ворожіння Таро</h2>
+            <p class="mb-4 text-light-80">ОБЕРИ, ЗАПИТАЙ, ОТРИМАЙ ВІДПОВІДЬ</p>
+            <div class="readings-banner text-center">
+              <img src="{% static 'images/tarot-cards2.png' %}" alt="Tarot" class="img-fluid"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5 order-2 order-lg-2 mb-3">
+          <div class="glass p-4 h-100">
+            <p class="small text-light-70 mb-3">
+              Найточніші відповіді виходять, коли ви коротко опишете свою ситуацію або побажання.
+            </p>
+
+            <div class="mb-3">
+              <label for="question" class="form-label text-gradient">
+                <span class="icon-pill me-2"><i class="fa-regular fa-comment-dots"></i></span>
+                Ваше питання (будь-яка мова)
+              </label>
+              <textarea id="question" name="question" class="form-control form-control-glass" rows="4" maxlength="500" placeholder="Наприклад: Що мене чекає у коханні?"></textarea>
+            </div>
+
+            <div class="row g-3 align-items-end">
+              <div class="col-7">
+                <label for="deck" class="form-label text-gradient">
+                  <span class="icon-pill me-2"><i class="fa-solid fa-layer-group"></i></span>
+                  Оберіть колоду
+                </label>
+                <select id="deck" name="deck" class="form-select form-control-glass">
+                  {% for deck in decks %}
+                    <option value="{{ deck.slug }}" data-max="{{ deck.max_cards }}">{{ deck.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-5">
+                <label for="count" class="form-label text-gradient">
+                  <span class="icon-pill me-2"><i class="fa-solid fa-hashtag"></i></span>
+                  Кіл-ть карт
+                </label>
+                <input type="number" id="count" name="count" class="form-control form-control-glass" value="3" min="1" max="10"/>
+              </div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button id="ask" class="btn btn-neon btn-lg">
+                <i class="fa-solid fa-sparkles me-2"></i> Отримати передбачення
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="response" class="glass p-4 mt-4 d-none text-light-80" style="white-space: pre-wrap;"></div>
+    </section>
+
+    <!-- Info -->
+    <section id="how" class="container pb-5">
+      <div class="glass p-4 text-light-80">
+        <h3 class="h4 mb-2 text-gradient">Для користувачів</h3>
+        <p class="mb-1">Зроблено для вас. Користуйтесь на здоров'я!</p>
+        <p class="mb-0">Ми поступово покращуємо відповіді та розширюємо функціонал.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-gradient">
+      <div class="container small">© 2025 Molfarka</div>
+    </footer>
+
+    <!-- JS -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script> -->
+    <!--  <script src="{% static 'js/custom.js' %}"></script> -->
+    <script>
+      $.ajaxSetup({ headers: { "X-CSRFToken": "{{ csrf_token }}" } });
+    </script>
+
+    <script>
+      $(function () {
+        $('#deck').on('change', function () {
+          let max = $(this).find(':selected').data('max');
+          $('#count').attr('max', max);
+          if (parseInt($('#count').val(), 10) > max) $('#count').val(max);
+        });
+
+        $('#ask').on('click', function () {
+          gtag('event', 'click', { event_category: 'prediction', event_label: 'Ask button clicked' });
+
+          const question = $('#question').val().trim();
+          const deck = $('#deck').val();
+          const count = parseInt($('#count').val(), 10);
+
+          if (!question) {
+            return $('#response').removeClass('d-none').html('⚠️ Будь ласка, введіть питання перед ворожінням.');
+          }
+          if (isNaN(count) || count < 1 || count > 10) {
+            return $('#response').removeClass('d-none').html('⚠️ Кількість карт має бути від 1 до 10.');
+          }
+
+          const $btn = $(this).prop('disabled', true);
+          $('#response').removeClass('d-none').html('🔮 Мольфарка тасує карти...');
+
+          $.post('/draw/', JSON.stringify({ deck, count }), function (drawData) {
+            const cards = drawData.cards || [];
+            $('#response').html(`🃏 Ось які карти випали:<br><b class="h3 text-gradient">${cards.join(', ')}</b><br><br>✨ Тлумачення вашого запитання...`);
+
+            $.post('/predict/', JSON.stringify({ question, cards, deck }), function (resultData) {
+              $('#response').append('<br><br>' + (resultData.result || ''));
+              $btn.prop('disabled', false);
+              window.scrollTo({ top: $('#response').offset().top - 80, behavior: 'smooth' });
+            }, 'json').fail(function () {
+              $('#response').append('<br>😔 Виникла помилка при тлумаченні.');
+              $btn.prop('disabled', false);
             });
 
-             let question = $('#question').val();
-             let deck = $('#deck').val();
-             let count = $('#count').val();
-
-            if (!question) {
-               $('#response').removeClass('d-none').html('⚠️ Будь ласка, введіть питання перед ворожінням.');
-               return;
-            }
-
-            if (count < 1 || count > 10) {
-               $('#response').removeClass('d-none').html('⚠️ Кількість карт має бути від 1 до 10.');
-               return;
-            }
-       
-             $('#response').removeClass('d-none').html('🔮 Мольфарка тасує карти...');
-             
-             // Choose cards
-             $.post('/draw/', JSON.stringify({
-               deck: deck,
-               count: count
-             }), function (drawData) {
-               let cards = drawData.cards;
-               $('#response').html(`🃏 Ось які карти випали:<br><b>${cards.join(', ')}</b><br><br>✨ Тлумачення вашого запитання...`);
-               
-               // Explain
-               $.post('/predict/', JSON.stringify({
-                 question: question,
-                 cards: cards,
-                 deck: deck
-               }), function (resultData) {
-                 $('#response').append('<br><br>' + resultData.result);
-               }, 'json').fail(function () {
-                 $('#response').append('<br>😔 Виникла помилка при тлумаченні.');
-               });
-       
-             }, 'json').fail(function () {
-               $('#response').html('😔 Виникла помилка при виборі карт.');
-             });
-           });
-         });
-       </script>
-
-   </body>
+          }, 'json').fail(function () {
+            $('#response').html('😔 Виникла помилка при виборі карт.');
+            $btn.prop('disabled', false);
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

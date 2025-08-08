@@ -6,10 +6,8 @@
 @import url(animate.min.css);
 @import url(normalize.css);
 @import url(icomoon.css);
-@import url(css/font-awesome.min.css);
 @import url(meanmenu.css);
 @import url(owl.carousel.min.css);
-@import url(swiper.min.css);
 @import url(slick.css);
 @import url(jquery.fancybox.min.css);
 @import url(jquery-ui.css);
@@ -1289,3 +1287,135 @@ p.dummy_text {
 .margin_top90 {
     margin-top: 90px;
 }
+
+:root{
+    --bg1:#0b0b2b;
+    --bg2:#1a1155;
+    --violet:#7a3cff;
+    --blue:#2dd4ff;
+    --pink:#ff4dd8;
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-brd: rgba(255,255,255,0.18);
+    --text-80: rgba(255,255,255,0.85);
+    --text-70: rgba(255,255,255,0.7);
+    --text-60: rgba(255,255,255,0.6);
+  }
+  
+  /* Статичный фон со звёздами */
+  body{
+    background-color:#0b0b2b;
+    background-image: url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>\
+      <rect width='240' height='240' fill='%230b0b2b'/>\
+      <circle cx='20' cy='40' r='1' fill='%23FFC107'/>\
+      <circle cx='120' cy='80' r='1' fill='%23FFD54A'/>\
+      <circle cx='200' cy='180' r='1' fill='%23FFC107'/>\
+      <circle cx='80' cy='200' r='1' fill='%23FFD54A'/>\
+      <circle cx='30' cy='210' r='0.8' fill='%23FFC107'/>\
+      <circle cx='180' cy='40' r='0.8' fill='%23FFD54A'/>\
+    </svg>");
+    background-repeat: repeat;
+    /* не ставь background-attachment: fixed — он дорогой на скролле */
+  }
+
+  .text-light-80{color:var(--text-80)!important;}
+  .text-light-70{color:var(--text-70)!important;}
+  .text-light-60{color:var(--text-60)!important;}
+  
+  .cosmic-nav{
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), transparent);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .brand-text{letter-spacing:.5px;font-weight:700}
+  
+  .text-gradient{
+    background: linear-gradient(90deg, var(--blue), var(--violet), var(--pink));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  
+  /* Glass */
+  .glass{
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-brd);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+    backdrop-filter: blur(10px);
+  }
+  .form-control-glass, .form-select.form-control-glass{
+    background: rgba(255,255,255,.06);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.18);
+    border-radius: 12px;
+    padding: 7px;
+  }
+  .form-control-glass::placeholder{color:rgba(255,255,255,.5)}
+  .form-control-glass:focus{border-color: rgba(125,64,255,.8); box-shadow: 0 0 0 .25rem rgba(122,60,255,.15);}
+  
+  /* Кнопка-неон */
+  .btn-neon{
+    position:relative;
+    border:none;
+    color:#0b0b2b;
+    background: linear-gradient(90deg, var(--blue), var(--violet));
+    border-radius: 14px;
+    padding:.9rem 1.2rem;
+    font-weight:700;
+    letter-spacing:.3px;
+    box-shadow: 0 0 18px rgba(125,64,255,.5), 0 6px 18px rgba(0,0,0,.4);
+    transition: transform .15s ease, box-shadow .2s ease;
+  }
+  .btn-neon:hover{transform: translateY(-2px); box-shadow: 0 0 24px rgba(45,212,255,.6), 0 12px 28px rgba(0,0,0,.45)}
+  .btn-neon:disabled{opacity:.6; cursor:not-allowed}
+  
+  /* Пилюли-иконки */
+  .icon-pill{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:999px;
+    background: linear-gradient(90deg, rgba(45,212,255,.25), rgba(122,60,255,.25));
+    border:1px solid rgba(255,255,255,.18);
+    color:#fff;
+  }
+  
+  /* Лёгкая анимация */
+  .floating{animation: float 7s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  
+  /* Мелочи */
+  .hero-illustration img{max-height:380px; object-fit:contain}
+  h1,h2,h3,h4{font-family:'Sen', system-ui, -apple-system, sans-serif}
+  
+  .brand-logo{height:clamp(38px,5vw,44px);width:auto;display:block}
+  @media screen and (min-width: 769px){
+    .brand-logo{height:clamp(78px,5vw,44px);width:auto;display:block}
+  }
+.navbar{min-height:56px}
+.nav-link{font-weight:500}
+
+@media screen and (min-width: 769px){
+    #readings .readings-banner img {
+        width:60%;
+    }
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #00d4ff, #a020f0); /* градиент фона */
+  }
+  
+  .navbar-toggler-icon {
+    background-image: none;
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .navbar-toggler-icon div {
+    height: 2px;
+    background: #fff; /* белые полоски */
+    border-radius: 2px;
+    margin: 3px 0;
+  }
