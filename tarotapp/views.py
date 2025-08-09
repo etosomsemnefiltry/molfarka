@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import TarotDeck, PredictionLog
+from .models import TarotDeck, PredictionLog, SampleQuestion
 from django.utils.timezone import now, timedelta
+from django.core import signing
 
 
 import os
@@ -10,14 +11,24 @@ from dotenv import load_dotenv
 from pathlib import Path
 from openai import OpenAI
 import json
+import requests
 
 
 load_dotenv()
 client = OpenAI()  # автоматом использует OPENAI_API_KEY из окружения
 
+YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search"
+YT_API_KEY = os.getenv("YT_API_KEY", "").strip()
+
 def index(request):
     decks = TarotDeck.objects.all()
-    return render(request, 'index.html', {'decks': decks})
+    questions = SampleQuestion.objects.filter(is_active=True).order_by('sort_order', 'id')
+    lang = 'uk'
+    questions_data = [
+        {'id': q.id, 'text': q.text_ru if lang == 'ru' else q.text_uk}
+        for q in questions
+    ]
+    return render(request, 'index.html', {'decks': decks, 'base_questions': questions_data})
 
 @csrf_exempt
 def predict(request):
@@ -111,3 +122,67 @@ def draw_cards(request):
             return JsonResponse({"error": f"⚠️ Помилка: {str(e)}"}, status=500)
 
     return JsonResponse({"error": "Метод не підтримується"}, status=405)
+
+@csrf_exempt
+def video_prediction(request):
+    if request.method == 'POST':
+        question = (request.POST.get('question') or '').strip()
+        ip = request.META.get('REMOTE_ADDR')
+        user_agent = request.META.get('HTTP_USER_AGENT', '')
+
+        if not question:
+            return JsonResponse({'error': 'А де запитання?'}, status=400)
+
+        cutoff = now() - timedelta(days=1)
+        recent_count = PredictionLog.objects.filter(ip=ip, created_at__gte=cutoff).count()
+        if recent_count >= 50:
+            return JsonResponse({'error': "⛔️ Ліміт передбачень на сьогодні вичерпано (5 за 24 години)."}, status=429)
+
+        # логируем как "video"
+        PredictionLog.objects.create(
+            question=question,
+            deck='video',
+            cards=[],  # JSONField: пустой масив
+            ip=ip,
+            user_agent=user_agent
+        )
+
+        if not YT_API_KEY:
+            return JsonResponse({'error': 'YouTube API ключ не налаштовано (YT_API_KEY).'}, status=500)
+
+        # чуть расширим запрос, чтобы точнее подбирать видео
+        query = f"{question} таро"
+        try:
+            video_url = yt_embed_url_by_query(query)
+        except requests.RequestException:
+            return JsonResponse({'error': 'Сервіс недоступний'}, status=502)
+
+        if not video_url:
+            return JsonResponse({'error': 'Відео не знайдено'}, status=404)
+
+        # На фронт отдаем ГОДНУЮ ссылку (embed); при необходимости можно сменить на watch
+        return JsonResponse({'video_url': video_url})
+
+    return JsonResponse({"error": "Метод не підтримується"}, status=405)
+
+def yt_embed_url_by_query(query: str) -> str | None:
+    params = {
+        'key': YT_API_KEY,
+        'part': 'snippet',
+        'q': query,
+        'type': 'video',
+        'maxResults': 1,
+        'videoEmbeddable': 'true',
+        'relevanceLanguage': 'uk',
+        'regionCode': 'UA',
+        'safeSearch': 'none',
+        'order': 'relevance',
+    }
+    r = requests.get(YOUTUBE_SEARCH_URL, params=params, timeout=8)
+    r.raise_for_status()
+    data = r.json()
+    items = data.get('items', [])
+    if not items:
+        return None
+    vid = items[0]['id']['videoId']
+    return f'https://www.youtube.com/embed/{vid}?rel=0&modestbranding=1&playsinline=1&controls=0&showinfo=0&disablekb=1&iv_load_policy=3'

@@ -121,7 +121,7 @@
       <div class="row g-4">
         <div class="col-lg-7 order-1 order-lg-1 mb-3">
           <div class="glass p-4 h-100">
-            <h2 class="h3 mb-3 text-gradient"><i class="fa-solid fa-hat-wizard mr-2"></i>Класичне ворожіння Таро</h2>
+            <h2 class="h3 mb-3 text-gradient"><i class="fa-solid fa-hat-wizard me-2"></i>Класичне ворожіння Таро</h2>
             <p class="mb-4 text-light-80">ОБЕРИ, ЗАПИТАЙ, ОТРИМАЙ ВІДПОВІДЬ</p>
             <div class="readings-banner text-center">
               <img src="{% static 'images/tarot-cards2.png' %}" alt="Tarot" class="img-fluid"/>
@@ -176,6 +176,52 @@
       <div id="response" class="glass p-4 mt-4 d-none text-light-80" style="white-space: pre-wrap;"></div>
     </section>
 
+   <!-- Video Form -->
+   <section id="videos" class="container pb-5">
+      <div class="row g-4">
+        <div class="col-lg-5 order-1 order-lg-1 mb-3">
+         
+          <div class="glass p-4 h-100">
+            <h2 class="h3 mb-3 text-gradient"><i class="fa-solid fa-hat-wizard me-2"></i>Ворожіння з відео</h2>
+            
+            <p class="small text-light-70 mb-3">
+              Найточніші відповіді виходять, коли ви коротко опишете свою ситуацію або побажання.
+            </p>
+
+            <div class="mb-3">
+              <label for="question-video" class="form-label text-gradient">
+                <span class="icon-pill me-2"><i class="fa-regular fa-comment-dots"></i></span>
+                Оберіть питання:
+              </label>
+              <select id="base_question" name="base_question" class="form-select form-control-glass">
+                  {% for q in base_questions %}
+                    <option value="{{ base_question.id }}">{{ q.text }}</option>
+                  {% endfor %}
+                </select>
+            </div>
+
+            
+
+            <div class="d-grid mt-4">
+              <button id="video" class="btn btn-neon btn-lg">
+                <i class="fa-solid fa-sparkles me-2"></i> Отримати передбачення
+              </button>
+            </div>
+          </div>
+        </div>
+
+            <div class="col-lg-7 order-2 order-lg-2 mb-3">
+            <div class="glass p-4 h-100">
+               <p class="mb-4 text-gradient h5"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>Можливо, тут більше відповидей</p>
+               <div id="response_video" class="video-banner text-center">
+                  <img src="{% static 'images/video-banner.png' %}" alt="Tarot" class="img-fluid"/>
+               </div>
+            </div>
+            </div>
+
+         </div>
+    </section>
+
     <!-- Info -->
     <section id="how" class="container pb-5">
       <div class="glass p-4 text-light-80">
@@ -196,7 +242,17 @@
     <!-- <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script> -->
     <!--  <script src="{% static 'js/custom.js' %}"></script> -->
     <script>
-      $.ajaxSetup({ headers: { "X-CSRFToken": "{{ csrf_token }}" } });
+      function getCookie(name){
+  const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return m ? m.pop() : '';
+}
+$.ajaxSetup({
+  beforeSend: function(xhr, settings){
+    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+      xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    }
+  }
+});
     </script>
 
     <script>
@@ -206,6 +262,45 @@
           $('#count').attr('max', max);
           if (parseInt($('#count').val(), 10) > max) $('#count').val(max);
         });
+
+
+
+        $('#video').on('click', function () {
+    gtag('event', 'click', { event_category: 'prediction', event_label: 'Video button clicked' });
+
+    
+    const baseQuestion = $('#base_question option:selected').text().trim();
+    
+    if (!baseQuestion) {
+        return $('#response_video')
+            .removeClass('d-none')
+            .html('⚠️ Будь ласка, введіть питання перед ворожінням.');
+    }
+
+    const $btn = $(this).prop('disabled', true);
+    $('#response_video')
+        .removeClass('d-none')
+        .html('⏳ Мольфарка готує відео...');
+
+    $.post('/video_prediction/', { question: baseQuestion }, function (data) {
+        if (data.video_url) {
+            $('#response_video').html(
+                '<iframe src="' + data.video_url + '" width="100%" height="320" frameborder="0" allowfullscreen></iframe>'
+            );
+            window.scrollTo({
+                top: $('#response_video').offset().top - 80,
+                behavior: 'smooth'
+            });
+        } else {
+            $('#response_video').html('😔 Відео не знайдено.');
+        }
+        $btn.prop('disabled', false);
+    }, 'json').fail(function () {
+        $('#response_video').html('😔 Виникла помилка при отриманні відео.');
+        $btn.prop('disabled', false);
+    });
+});
+
 
         $('#ask').on('click', function () {
           gtag('event', 'click', { event_category: 'prediction', event_label: 'Ask button clicked' });
